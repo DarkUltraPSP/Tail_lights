@@ -37,7 +37,7 @@ void loop() {
   } else if (blinkerState == LOW) {
     FastLED.setBrightness(255);
     for (int i = 0; i < 40; i++) {
-      leds[i] = CRGB::Orange;
+      leds[i] = CRGB::OrangeRed;
       FastLED.delay(10);
     }
 
