@@ -36,7 +36,7 @@ void rainbowChase(uint8_t wait) {
     for (i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
     }
-    whiteChase(j);
+    whiteChase();
     strip.show();
     delay(wait);
   }
@@ -56,8 +56,17 @@ void addSparkles(uint8_t count) {
   }
 }
 
-void whiteChase(int head) {
-  strip.setPixelColor(head, strip.Color(255, 255, 255));  // Set pixel to white 
+void whiteChase() {
+  static int currentLED = 0;
+  static int previousLED = NUM_LEDS - 1;
+
+  // Turn on the current LED
+  strip.setPixelColor(currentLED, 255, 255, 255);
+  strip.show();
+
+  // Update the LED index values
+  previousLED = currentLED;
+  currentLED = (currentLED + 1) % NUM_LEDS;
 }
 
 // Input a value 0 to 255 to get a color value.
