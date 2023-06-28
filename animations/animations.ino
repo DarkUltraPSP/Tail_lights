@@ -2,7 +2,7 @@
 
 #define LED_PIN 2
 #define NUM_LEDS 144
-#define BRIGHTNESS 10
+#define BRIGHTNESS 255
 
 Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -23,7 +23,7 @@ void rainbowSparkle(uint8_t wait) {
     for (i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
     }
-    addSparkles(random(0,2));
+    addSparkles(random(0, 2));
     strip.show();
     delay(wait);
   }
@@ -42,11 +42,17 @@ void rainbowChase(uint8_t wait) {
   }
 }
 
-void blinkers() {
-  for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 255, 80, 0);
+void doubleRainbowChase(uint8_t wait) {
+  uint16_t i, j;
+
+  for (j = 0; j < 256; j++) {
+    for (i = 0; i < strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    }
+    whiteReverseChase();
+    strip.show();
+    delay(wait);
   }
-  strip.show();
 }
 
 void addSparkles(uint8_t count) {
@@ -58,15 +64,43 @@ void addSparkles(uint8_t count) {
 
 void whiteChase() {
   static int currentLED = 0;
-  static int previousLED = NUM_LEDS - 1;
 
   // Turn on the current LED
   strip.setPixelColor(currentLED, 255, 255, 255);
-  strip.show();
 
-  // Update the LED index values
-  previousLED = currentLED;
   currentLED = (currentLED + 1) % NUM_LEDS;
+}
+
+void whiteOppositeChase() {
+  static int currentLED1 = 0;
+  static int currentLED2 = strip.numPixels() / 2;
+
+  // Turn on the current LED
+  strip.setPixelColor(currentLED1, 255, 255, 255);
+  strip.setPixelColor(currentLED1 + 1, 255, 255, 255);
+
+  strip.setPixelColor(currentLED2, 255, 255, 255);
+  strip.setPixelColor(currentLED2 + 1, 255, 255, 255);
+
+  currentLED1 = (currentLED1 + 1) % NUM_LEDS;
+  currentLED2 = (currentLED2 + 1) % NUM_LEDS;
+}
+
+void whiteReverseChase() {
+  static int currentLED1 = 0;
+  static int currentLED2 = NUM_LEDS - 1;
+
+  // Turn on the current LED
+  strip.setPixelColor(currentLED1, 255, 255, 255);
+  strip.setPixelColor(currentLED1 + 1, 255, 255, 255);
+
+  // Turn on the current LED
+  strip.setPixelColor(currentLED2, 255, 255, 255);
+  strip.setPixelColor(currentLED2 - 1, 255, 255, 255);
+
+
+  currentLED1 = (currentLED1 + 1) % NUM_LEDS;
+  currentLED2 = (currentLED2 - 1 + NUM_LEDS) % NUM_LEDS;
 }
 
 // Input a value 0 to 255 to get a color value.
