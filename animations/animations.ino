@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 
 #define LED_PIN 2
-#define NUM_LEDS 144
-#define BRIGHTNESS 255
+#define NUM_LEDS 30
+#define BRIGHTNESS 40
 
 Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -13,7 +13,16 @@ void setup() {
 }
 
 void loop() {
-  rainbowChase(5);
+  unicolorSparkle(255, 30, 0, 10);
+}
+
+void unicolorSparkle(int red, int green, int blue, int wait) {
+  for (int i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, red, green, blue);
+  }
+  addSparkles(random(2));
+  strip.show();
+  delay(wait);
 }
 
 void rainbowSparkle(uint8_t wait) {
@@ -101,6 +110,29 @@ void whiteReverseChase() {
 
   currentLED1 = (currentLED1 + 1) % NUM_LEDS;
   currentLED2 = (currentLED2 - 1 + NUM_LEDS) % NUM_LEDS;
+}
+
+void animation_luminosite() {
+  int luminosite_max = 255;  // Valeur maximale de la luminosité
+  int pas = 5;  // Pas d'augmentation/diminution de la luminosité
+
+  // Augmentation de la luminosité
+  for (int luminosite = 0; luminosite < luminosite_max; luminosite += pas) {
+    for (int i = 0; i < NUM_LEDS; i++) {
+      strip.setPixelColor(i, strip.Color(luminosite, luminosite, luminosite));
+    }
+    strip.show();
+    delay(10);
+  }
+
+  // Diminution de la luminosité
+  for (int luminosite = luminosite_max; luminosite >= 1; luminosite -= pas) {
+    for (int i = 0; i < NUM_LEDS; i++) {
+      strip.setPixelColor(i, strip.Color(luminosite, luminosite, luminosite));
+    }
+    strip.show();
+    delay(10);
+  }
 }
 
 // Input a value 0 to 255 to get a color value.
