@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 
 #define LED_PIN 2
-#define NUM_LEDS 30
-#define BRIGHTNESS 40
+#define NUM_LEDS 144
+#define BRIGHTNESS 255
 
 Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -13,7 +13,7 @@ void setup() {
 }
 
 void loop() {
-  unicolorSparkle(255, 30, 0, 10);
+  rainbowSparkle(5);
 }
 
 void unicolorSparkle(int red, int green, int blue, int wait) {
@@ -58,7 +58,7 @@ void doubleRainbowChase(uint8_t wait) {
     for (i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
     }
-    whiteReverseChase();
+    whiteOppositeChase();
     strip.show();
     delay(wait);
   }
