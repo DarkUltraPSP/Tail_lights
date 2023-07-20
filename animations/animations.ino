@@ -13,7 +13,16 @@ void setup() {
 }
 
 void loop() {
-  rainbowSparkle(5);
+  staticColor(255, 0, 0, 100);
+}
+
+void staticColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness) {
+  strip.setBrightness(brightness);
+  
+  for (int i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, );
+  }
+  strip.show();
 }
 
 void unicolorSparkle(int red, int green, int blue, int wait) {
